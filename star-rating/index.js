@@ -26,21 +26,22 @@ const makeStarRating = ($container) => {
 
   for (let i = 0; i < maxRating; i++) {
     const star = document.createElement('i');
-    star.dataset.id = i + 1;
+    star.dataset.value = i + 1;
     star.className = 'bx bxs-star';
     StarRatingCon.appendChild(star);
   }
   return StarRatingCon;
 };
 
-// 마우스 오버 이벤트
+// 마우스 이벤트
 const handleStarRating = ($container) => {
   const stars = [...$container.querySelectorAll('i')];
 
+  // 마우스 오버
   $container.addEventListener('mouseover', (event) => {
-    const id = event.target.dataset.id;
+    const value = event.target.dataset.value;
     stars.forEach((star, i) => {
-      star.classList.toggle('hovered', i < id);
+      star.classList.toggle('hovered', i < value);
     });
   });
 
@@ -48,6 +49,19 @@ const handleStarRating = ($container) => {
     stars.forEach((star, i) => {
       star.classList.remove('hovered');
     });
+  });
+
+  // 마우스 클릭
+  $container.addEventListener('click', (event) => {
+    const value = event.target.dataset.value;
+
+    stars.forEach((star, i) => {
+      star.classList.toggle('selected', i < value);
+    });
+
+    $container.dispatchEvent(
+      new CustomEvent('rating-change', { detail: value, bubbles: true })
+    );
   });
 };
 
