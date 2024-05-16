@@ -52,8 +52,9 @@ const handleStarRating = ($container) => {
   });
 
   // 마우스 클릭
-  $container.addEventListener('click', (event) => {
-    const value = event.target.dataset.value;
+  $container.addEventListener('click', (e) => {
+    const value = e.target.dataset.value || 0;
+    console.log(value);
 
     stars.forEach((star, i) => {
       star.classList.toggle('selected', i < value);
